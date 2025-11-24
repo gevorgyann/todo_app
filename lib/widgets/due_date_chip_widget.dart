@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/todo.dart';
 import '../utils/app_colors.dart';
 
@@ -17,9 +18,7 @@ class DueDateChipWidget extends StatelessWidget {
     }
 
     final isOverdue = todo.isOverdue;
-    final isToday = todo.dueDate != null &&
-        todo.dueDate!.year == DateTime.now().year &&
-        todo.dueDate!.month == DateTime.now().month &&
+    final isToday = todo.dueDate!.month == DateTime.now().month &&
         todo.dueDate!.day == DateTime.now().day;
 
     Color chipColor;
@@ -31,22 +30,34 @@ class DueDateChipWidget extends StatelessWidget {
       chipColor = AppColors.primary;
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-      decoration: BoxDecoration(
-        color: chipColor.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: chipColor),
-      ),
-      child: Text(
-        todo.formattedDueDate,
-        style: TextStyle(
-          fontFamily: 'Manrope',
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: chipColor,
+    final formattedDate = DateFormat('d MMMM', 'ru_RU').format(todo.dueDate!);
+
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 0, top: 0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.calendar_today,
+              size: 12,
+              color: AppColors.statusToDo,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              formattedDate,
+              style: const TextStyle(
+                fontFamily: 'Manrope',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.statusToDo,
+              ),
+            ),
+          ],
         ),
       ),
     );
+
   }
 }

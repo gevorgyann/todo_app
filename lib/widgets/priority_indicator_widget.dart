@@ -27,13 +27,7 @@ class PriorityIndicatorWidget extends StatelessWidget {
       }
     }
 
-    return Container(
-      width: 8,
-      height: 8,
-      decoration: BoxDecoration(
-        color: priorityColor,
-        borderRadius: BorderRadius.circular(4),
-      ),
-    );
+    return Container();
   }
 }
+

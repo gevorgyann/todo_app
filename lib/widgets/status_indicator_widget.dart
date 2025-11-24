@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/todo.dart';
-import '../utils/app_colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class StatusIndicatorWidget extends StatelessWidget {
   final TodoStatus status;
@@ -12,40 +12,34 @@ class StatusIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color indicatorColor;
-    IconData icon;
+    String assetPath;
+    EdgeInsets padding;
 
     switch (status) {
       case TodoStatus.toDo:
-        indicatorColor = AppColors.statusToDo;
-        icon = Icons.radio_button_unchecked;
+        assetPath = 'assets/images/vector.svg';
+        padding = const EdgeInsets.only(left: 8, top: 6);
         break;
       case TodoStatus.inProgress:
-        indicatorColor = AppColors.statusInProgress;
-        icon = Icons.schedule;
+        assetPath = 'assets/images/vector.svg';
+        padding = const EdgeInsets.only(left: 8, top: 6);
         break;
       case TodoStatus.inReview:
-        indicatorColor = AppColors.statusInReview;
-        icon = Icons.visibility;
+        assetPath = 'assets/images/vector.svg';
+        padding = const EdgeInsets.only(left: 8, top: 6);
         break;
       case TodoStatus.completed:
-        indicatorColor = AppColors.statusCompleted;
-        icon = Icons.check_circle;
+        assetPath = 'assets/images/vector.svg';
+        padding = const EdgeInsets.only(left: 8, top: 6);
         break;
     }
 
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: BoxDecoration(
-        color: indicatorColor.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: indicatorColor, width: 1),
-      ),
-      child: Icon(
-        icon,
-        size: 16,
-        color: indicatorColor,
+    return Padding(
+      padding: padding,
+      child: SvgPicture.asset(
+        assetPath,
+        width: 8,
+        height: 12,
       ),
     );
   }

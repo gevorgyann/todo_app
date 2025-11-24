@@ -29,7 +29,7 @@ class BottomSheetHeaderWidget extends StatelessWidget {
           onTap: onClose,
           child: const Icon(
             Icons.close,
-            color: AppColors.textSecondary,
+            color: AppColors.textPrimary,
             size: 24,
           ),
         ),

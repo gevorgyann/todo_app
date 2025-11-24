@@ -4,8 +4,13 @@ import 'blocs/todo_bloc.dart';
 import 'services/todo_repository.dart';
 import 'screens/todo_list_screen.dart';
 import 'utils/app_colors.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting('ru_RU', null);
+
   runApp(const MyApp());
 }
 
@@ -59,7 +64,7 @@ class MyApp extends StatelessWidget {
             filled: true,
             fillColor: AppColors.surface,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(60),
               borderSide: BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(

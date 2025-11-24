@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
 
-class TitleFieldWidget extends StatelessWidget {
+class TitleFieldWidget extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onChanged;
 
@@ -12,14 +12,38 @@ class TitleFieldWidget extends StatelessWidget {
   });
 
   @override
+  State<TitleFieldWidget> createState() => _TitleFieldWidgetState();
+}
+
+class _TitleFieldWidgetState extends State<TitleFieldWidget> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final bool isFocused = _focusNode.hasFocus;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
         TextFormField(
-          controller: controller,
-          onChanged: (_) => onChanged(),
+          controller: widget.controller,
+          focusNode: _focusNode,
+          onChanged: (_) => widget.onChanged(),
           style: const TextStyle(
             fontFamily: 'Manrope',
             fontSize: 16,
@@ -29,17 +53,19 @@ class TitleFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Задача',
             hintText: 'Введите задачу',
-            labelStyle: const TextStyle(
+            labelStyle: TextStyle(
               fontFamily: 'Manrope',
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
+              color: isFocused
+                  ? AppColors.textPrimary
+                  : AppColors.textHint,
             ),
             hintStyle: const TextStyle(
               fontFamily: 'Manrope',
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: AppColors.textSecondary,
+              color: AppColors.textHint,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -59,25 +85,11 @@ class TitleFieldWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
                 color: AppColors.primary,
-                width: 2,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: AppColors.error,
                 width: 1,
               ),
             ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: AppColors.error,
-                width: 2,
-              ),
-            ),
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: AppColors.background,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 16,

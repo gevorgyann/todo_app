@@ -20,12 +20,16 @@ class StatusHeaderWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadowLight,
+            color: const Color(0x14000809),
             blurRadius: 4,
-            offset: const Offset(0, 2),
+            offset: const Offset(2, 2),
+          ),
+          BoxShadow(
+            color: const Color(0x05000809),
+            blurRadius: 6,
+            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -45,7 +49,7 @@ class StatusHeaderWidget extends StatelessWidget {
             '$count',
             style: const TextStyle(
               fontFamily: 'Manrope',
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
               color: AppColors.textPrimary,
             ),
@@ -53,7 +57,8 @@ class StatusHeaderWidget extends StatelessWidget {
           const SizedBox(width: 8),
           Icon(
             Icons.keyboard_arrow_down,
-            color: AppColors.textSecondary,
+            color: AppColors.textPrimary,
+            size: 24,
           ),
         ],
       ),

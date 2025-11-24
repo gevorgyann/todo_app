@@ -51,16 +51,8 @@ class TodoContentWidget extends StatelessWidget {
                               color: todo.status == TodoStatus.completed
                                   ? AppColors.textSecondary
                                   : AppColors.textPrimary,
-                              decoration: todo.status == TodoStatus.completed
-                                  ? TextDecoration.lineThrough
-                                  : null,
                             ),
                           ),
-                        ),
-                        const Icon(
-                          Icons.drag_handle,
-                          color: AppColors.textSecondary,
-                          size: 20,
                         ),
                       ],
                     ),

@@ -24,7 +24,7 @@ class ActionButtonsWidget extends StatelessWidget {
               child: Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: AppColors.buttonDisabled,
+                  color: AppColors.textHint,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextButton(

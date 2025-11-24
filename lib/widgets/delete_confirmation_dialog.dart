@@ -46,7 +46,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.error,
+            backgroundColor: Color.fromRGBO(255, 90, 90, 1),
           ),
           onPressed: () {
             Navigator.of(context).pop();

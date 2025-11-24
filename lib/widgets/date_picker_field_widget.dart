@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/app_colors.dart';
 
-class DatePickerFieldWidget extends StatelessWidget {
+class DatePickerFieldWidget extends StatefulWidget {
   final ValueNotifier<DateTime?> selectedDateNotifier;
   final VoidCallback onDateChanged;
 
@@ -13,15 +13,38 @@ class DatePickerFieldWidget extends StatelessWidget {
   });
 
   @override
+  State<DatePickerFieldWidget> createState() => _DatePickerFieldWidgetState();
+}
+
+class _DatePickerFieldWidgetState extends State<DatePickerFieldWidget> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isFocused = _focusNode.hasFocus;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
         ValueListenableBuilder<DateTime?>(
-          valueListenable: selectedDateNotifier,
+          valueListenable: widget.selectedDateNotifier,
           builder: (context, selectedDate, child) {
             return TextFormField(
+              focusNode: _focusNode,
               readOnly: true,
               onTap: () => _selectDueDate(context),
               style: const TextStyle(
@@ -30,70 +53,40 @@ class DatePickerFieldWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: AppColors.textPrimary,
               ),
-              decoration: InputDecoration(
-                labelText: 'Дата завершения',
-                hintText: 'Выберите дату',
-                labelStyle: const TextStyle(
-                  fontFamily: 'Manrope',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
-                ),
-                hintStyle: const TextStyle(
-                  fontFamily: 'Manrope',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textSecondary,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: AppColors.border,
-                    width: 1,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: AppColors.border,
-                    width: 1,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: AppColors.primary,
-                    width: 2,
-                  ),
-                ),
-                filled: true,
-                fillColor: AppColors.surface,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                prefixIcon: Icon(
-                  Icons.calendar_today_outlined,
-                  color: selectedDate != null
-                      ? AppColors.primary
-                      : AppColors.textSecondary,
-                  size: 20,
-                ),
-                suffixIcon: selectedDate != null
-                    ? GestureDetector(
-                        onTap: () {
-                          selectedDateNotifier.value = null;
-                          onDateChanged();
-                        },
-                        child: const Icon(
-                          Icons.clear,
-                          color: AppColors.textSecondary,
-                          size: 20,
-                        ),
-                      )
-                    : null,
+              decoration:  InputDecoration(
+                labelText: isFocused ? 'Дата завершения' : 'Выберите',
+                labelStyle: TextStyle(
+                fontFamily: 'Manrope',
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: isFocused ? AppColors.textPrimary : AppColors.textHint,
               ),
-              controller: TextEditingController(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.border, width: 1),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.border, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.primary, width: 2),
+              ),
+              filled: true,
+              fillColor: AppColors.background,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                suffixIcon: GestureDetector(
+                  onTap: () => _selectDueDate(context),
+                  child: Icon(
+                    Icons.calendar_today_outlined,
+                    color: AppColors.statusToDo,
+                    size: 24,
+                  ),
+                ),
+              ),
+
+            controller: TextEditingController(
                 text: selectedDate != null
                     ? DateFormat('dd.MM.yyyy').format(selectedDate)
                     : '',
@@ -109,7 +102,7 @@ class DatePickerFieldWidget extends StatelessWidget {
     final now = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDateNotifier.value ?? now,
+      initialDate: widget.selectedDateNotifier.value ?? now,
       firstDate: now,
       lastDate: DateTime(now.year + 5),
       helpText: 'Выберите дату завершения',
@@ -129,34 +122,15 @@ class DatePickerFieldWidget extends StatelessWidget {
               outline: AppColors.border,
               onSurfaceVariant: AppColors.textSecondary,
             ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.primary,
-                textStyle: const TextStyle(
-                  fontFamily: 'Manrope',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            textTheme: Theme.of(context).textTheme.copyWith(
-              headlineLarge: const TextStyle(
-                fontFamily: 'Manrope',
-                fontWeight: FontWeight.w500,
-              ),
-              bodyLarge: const TextStyle(
-                fontFamily: 'Manrope',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
           ),
           child: child!,
         );
       },
     );
 
-    if (picked != null && picked != selectedDateNotifier.value) {
-      selectedDateNotifier.value = picked;
-      onDateChanged();
+    if (picked != null && picked != widget.selectedDateNotifier.value) {
+      widget.selectedDateNotifier.value = picked;
+      widget.onDateChanged();
     }
   }
 }

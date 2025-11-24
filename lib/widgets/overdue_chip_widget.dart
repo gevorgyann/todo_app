@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/todo.dart';
-import '../utils/app_colors.dart';
 
 class OverdueChipWidget extends StatelessWidget {
   final Todo todo;
@@ -16,22 +15,25 @@ class OverdueChipWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 2.0,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.red.shade600,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Text(
-        'Просрочено',
-        style: TextStyle(
-          fontFamily: 'Manrope',
-          fontSize: 10,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+          vertical: 4.0,
+        ),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 90, 90, 1),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: const Text(
+          'Просрочено',
+          style: TextStyle(
+            fontFamily: 'Manrope',
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
         ),
       ),
     );

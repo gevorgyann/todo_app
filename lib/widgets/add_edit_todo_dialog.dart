@@ -134,7 +134,7 @@ class _AddEditTodoDialogState extends State<AddEditTodoDialog> {
                 fontFamily: 'Manrope',
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: AppColors.textHint,
               ),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(
